@@ -1,18 +1,20 @@
 //Clase Cliente
 
 class Cliente {
-    constructor(nombre, apellido, dni, plazoFijo) {
+    constructor(nombre, apellido, dni, plazoFijo,interes) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.plazoFijo = plazoFijo;        
+        this.plazoFijo = plazoFijo;
+        this.interes = interes;
+        
     }
 }
 
 
-const clienteAgustin = new Cliente("Agustin", "Goni", 12345678, 10000);
-const clienteVirginia = new Cliente("Virginia", "Amestoy", 87654321, 20000);
-const clientePilar = new Cliente("Pilar", "Goni Amestoy", 12345876, 10000000);
+const clienteAgustin = new Cliente("Agustin", "Goni", 12345678, 10000,7500);
+const clienteVirginia = new Cliente("Virginia", "Amestoy", 87654321, 20000, 15000);
+const clientePilar = new Cliente("Pilar", "Goni Amestoy", 12345876, 10000000, 6600000);
 
 const arrayClientes = [];
 
@@ -37,7 +39,22 @@ function altaPlazoFijo() {
     let apellido = prompt("Ingrese el apellido del cliente: ");
     let dni = parseInt(prompt("Ingrese el DNI del cliente: "));
     let plazoFijo = parseInt(prompt("Ingrese el monto de plazo fijo : "));
-    let cliente = new Cliente(nombre, apellido, dni, plazoFijo);
+    
+    function interesAnual(plazoFijo){
+        if(plazoFijo>=1500 && plazoFijo<10000000){
+            return plazoFijo * 0.75; 
+            
+           
+       }else if(plazoFijo>=10000000){
+            return plazoFijo *0.66;
+           
+           
+       }else{
+           alert("No puedes realizar el plazo fijo : ");
+       };
+    };
+    let interes = interesAnual(plazoFijo);
+    let cliente = new Cliente(nombre, apellido, dni, plazoFijo, interes);
     arrayClientes.push(cliente);
     console.log(arrayClientes);
 }
@@ -86,6 +103,31 @@ switch (opcion) {
         alert("Opción incorrecta, volve a intentar!!!");
         break;
 }
+/* let nombreCliente = prompt("Ingrese su nombre :");
+let monto = prompt("Ingrese el Monto del Plazo Fijo: ");
+ */
+
+/* function plazoFijo(monto){
+    if(monto>=1500 && monto<10000000){
+        let interesAnual = monto * 0.75; 
+        return interesAnual;
+        
+    }else if(monto>=10000000){
+        let interesAnual = monto *0.66;
+        return interesAnual;
+        
+    }else{
+        alert("No puedes realizar el plazo fijo : ");
+    }
+       
+} */
+
+
+    /* if(monto>=1500  && monto<10000000){
+        alert (nombreCliente+" tu plazo fijo generara un interes anual de "+(plazoFijo(monto).toFixed(2))+" pesos");
+    }else{
+        alert (nombreCliente+" tu plazo fijo generara un interes anual de "+(plazoFijo(monto).toFixed(2))+" pesos"); 
+    }  */
 
 
  
