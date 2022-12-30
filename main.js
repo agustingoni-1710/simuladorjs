@@ -27,11 +27,8 @@ arrayClientes.push(clientePilar);
 const verPlazoFijo = document.getElementById("verPlazoFijo");
 
 verPlazoFijo.addEventListener("click", () =>{
-    mostrarPlazoFijo();
+    calcularTotal();
 })
-
-//Funcion para Mostrar El Plazo Fijo
-
 
 
 //Mostramos mensaje con el total del plazo fijo
@@ -39,8 +36,8 @@ verPlazoFijo.addEventListener("click", () =>{
 const total = document.getElementById("total");
 
 const calcularTotal = () => {
-    let totalCompra = 0;
-    carrito.forEach(cliente => {
+    let totalPlazofijo = 0;
+    arrayClientes.forEach(cliente => {
         totalPlazofijo += cliente.plazoFijo * producto.interes;    
     })
     total.innerHTML = `Total: $${totalPlazofijo}`;
