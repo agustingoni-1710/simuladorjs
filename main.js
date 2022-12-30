@@ -18,15 +18,37 @@ const clientePilar = new Cliente("Pilar", "Goni Amestoy", 12345876, 10000000, 66
 
 const arrayClientes = [];
 
-arrayClientes.push(clienteAgustin);
+/* arrayClientes.push(clienteAgustin);
 arrayClientes.push(clienteVirginia);
 arrayClientes.push(clientePilar);
+ */
+/* console.log(arrayClientes); */
 
-console.log(arrayClientes);
+const verPlazoFijo = document.getElementById("verPlazoFijo");
+
+verPlazoFijo.addEventListener("click", () =>{
+    mostrarPlazoFijo();
+})
+
+//Funcion para Mostrar El Plazo Fijo
+
+
+
+//Mostramos mensaje con el total del plazo fijo
+
+const total = document.getElementById("total");
+
+const calcularTotal = () => {
+    let totalCompra = 0;
+    carrito.forEach(cliente => {
+        totalPlazofijo += cliente.plazoFijo * producto.interes;    
+    })
+    total.innerHTML = `Total: $${totalPlazofijo}`;
+}
 
 //Función con el menú de opciones:
 
-function menu() {
+/* function menu() {
     alert("Bienvenido al Banco Nacion");
     let opcion = parseInt(prompt("Ingrese una opción: \n 1) Alta de Plazo Fijo \n 2) Baja de Plazo Fijo \n 3) Consulta de Plazo Fijo \n 4) Salir "));
     return opcion;
@@ -102,7 +124,7 @@ switch (opcion) {
     default:
         alert("Opción incorrecta, volve a intentar!!!");
         break;
-}
+} */
 
 
 
