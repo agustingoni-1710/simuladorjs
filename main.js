@@ -1,128 +1,106 @@
 //Clase Cliente
 
 class Cliente {
-    constructor(nombre, apellido, dni, plazoFijo,interes) {
+    constructor(nombre, email, monto, plazo) {
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.plazoFijo = plazoFijo;
-        this.interes = interes;
-        
+        this.email = email;
+        this.monto = monto;
+        this.plazo = plazo;    
+    }
+    calcularPlazoFijo() {
+
+        if(this.monto>=1500 && this.monto<10000000 && this.plazo>30){
+            let Interes = (this.monto * 0.75)*this.plazo/365;
+            return Interes.toFixed(2);
+        }else if(this.monto>=10000000 && this.plazo>30){
+            let Interes = (this.monto * 0.66)*this.plazo/365;
+            return Interes.toFixed(2);
+        }
     }
 }
 
+//Creo un Array de Objetos
 
-const clienteAgustin = new Cliente("Agustin", "Goni", 12345678, 10000,7500);
-const clienteVirginia = new Cliente("Virginia", "Amestoy", 87654321, 20000, 15000);
-const clientePilar = new Cliente("Pilar", "Goni Amestoy", 12345876, 10000000, 6600000);
+const clientes = [];
 
-const arrayClientes = [];
+const idFormulario = document.getElementById("formulario");
 
-/* arrayClientes.push(clienteAgustin);
-arrayClientes.push(clienteVirginia);
-arrayClientes.push(clientePilar);
- */
-/* console.log(arrayClientes); */
+idFormulario.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-const verPlazoFijo = document.getElementById("verPlazoFijo");
+    const nombre = document.getElementById("nombre").value;
+    const email = document.getElementById("email").value;
+    const monto = document.getElementById("monto").value;
+    const plazo = document.getElementById("plazo").value;
 
-verPlazoFijo.addEventListener("click", () =>{
-    calcularTotal();
-})
+    //Creo el objeto cliente
+    const cliente = new Cliente(nombre,email,monto,plazo);
 
+    //Agrego los datos en el Array
+    clientes.push(cliente);
 
-//Mostramos mensaje con el total del plazo fijo
+    //Guardo los datos en el Storage
+    localStorage.setItem("Cliente", JSON.stringify(clientes));
 
-const total = document.getElementById("total");
+    //Limpio el formulario
+    idFormulario.reset();
 
-const calcularTotal = () => {
-    let totalPlazofijo = 0;
-    arrayClientes.forEach(cliente => {
-        totalPlazofijo += cliente.plazoFijo * producto.interes;    
-    })
-    total.innerHTML = `Total: $${totalPlazofijo}`;
+    mostrarPlazoFijo(cliente);
+});
+
+//Creo la funcion mostrar Plazo Fijo
+const informacion = document.getElementById("infoUsuarios");
+
+const mostrarPlazoFijo = (cliente) => {
+    let aux = "";
+    aux += `<p class="informacion">${cliente.nombre}</p>
+            <p class="informacion">Interes: ${cliente.calcularPlazoFijo()}</p>`
+
+            informacion.innerHTML = aux;
 }
 
-//Función con el menú de opciones:
+const botonAdmin = document.getElementById("admin");
+const datosAdmin = document.getElementById("datosAdmin");
 
-/* function menu() {
-    alert("Bienvenido al Banco Nacion");
-    let opcion = parseInt(prompt("Ingrese una opción: \n 1) Alta de Plazo Fijo \n 2) Baja de Plazo Fijo \n 3) Consulta de Plazo Fijo \n 4) Salir "));
-    return opcion;
-}
+botonAdmin.addEventListener("click", () => {
+    const clientes = JSON.parse(localStorage.getItem("Cliente"));
+    let aux = "";
+    clientes.forEach(cliente => {
+        aux += `<p class="informacion">Nombre: ${cliente.nombre}</p>
+                <p class="informacion">Email: ${cliente.email}</p> <hr>`
+    });
+    datosAdmin.innerHTML = aux;
+});
 
-//Función para dar de alta un Plazo Fijo:
+botonAdmin.addEventListener("click", () => {
+    Toastify({
+        text:"Se realizo con exito la operacion",
+        duration: 3000,
+        position:"rigth",
+        gravity: "bottom"
+    }).showToast();
+});
 
-function altaPlazoFijo() {
-    let nombre = prompt("Ingrese el nombre del cliente: ");
-    let apellido = prompt("Ingrese el apellido del cliente: ");
-    let dni = parseInt(prompt("Ingrese el DNI del cliente: "));
-    let plazoFijo = parseInt(prompt("Ingrese el monto de plazo fijo : "));
-    
-    function interesAnual(plazoFijo){
-        if(plazoFijo>=1500 && plazoFijo<10000000){
-            return plazoFijo * 0.75; 
-            
-           
-       }else if(plazoFijo>=10000000){
-            return plazoFijo *0.66;
-           
-           
-       }else{
-           alert("No puedes realizar el plazo fijo : ");
-       };
-    };
-    let interes = interesAnual(plazoFijo);
-    let cliente = new Cliente(nombre, apellido, dni, plazoFijo, interes);
-    arrayClientes.push(cliente);
-    console.log(arrayClientes);
-}
+const criptoYa = "https://criptoya.com/api/dolar";
 
-//Función para dar de baja un Plazo Fijo:
+const divDolar = document.getElementById("divDolar");
 
-function bajaPlazoFijo() {
-    let dni = parseInt(prompt("Ingrese el DNI del cliente: "));
-    let cliente = arrayClientes.find(cliente => cliente.dni === dni);
-    let indice = arrayClientes.indexOf(cliente);
-    arrayClientes.splice(indice, 1);
-    console.log(arrayClientes);
-}
-
-//Función para consultar un Plazo Fijo:
-
-function consultaPlazoFijo() {
-    let dni = parseInt(prompt("Ingrese el DNI del cliente: "));
-    let cliente = arrayClientes.find(cliente => cliente.dni === dni);
-    console.log(cliente);
-}
-
-//Función para salir del programa:
-
-function salir() {
-    alert("Gracias por utilizar el Banco Nacion");
-}
-
-//Ejecuto el el programa:
-
-let opcion = menu();
-switch (opcion) {
-    case 1:
-        altaPlazoFijo();
-        break;
-    case 2:
-        bajaPlazoFijo();
-        break;
-    case 3:
-        consultaPlazoFijo();
-        break;
-    case 4:
-        salir();
-        break;
-    default:
-        alert("Opción incorrecta, volve a intentar!!!");
-        break;
-} */
-
+setInterval( () => {
+    fetch(criptoYa)
+        .then( response => response.json())
+        .then(({blue, ccb, ccl, mep, oficial, solidario}) => {
+            divDolar.innerHTML = `
+            <h2>Valor del Dolar: </h2>
+            <p>Dolar oficial: ${oficial} </p>
+            <p>Dolar Solidario: ${solidario} </p>
+            <p>Dolar MEP: ${mep} </p>
+            <p>Dolar CCL: ${ccl} </p>
+            <p>Dolar CCB: ${ccb} </p>
+            <p>Dolar Blue: ${blue} </p>
+            `
+        })
+        .catch(error => console.error(error))
+    }, 3000)
 
 
  
