@@ -9,11 +9,11 @@ class Cliente {
     }
     calcularPlazoFijo() {
 
-        if(this.monto>=1500 && this.monto<10000000 && this.plazo>30){
+        if(this.monto>=1500 && this.monto<=10000000 && this.plazo>=30){
             let Interes = (this.monto * 0.75)*this.plazo/365;
             return Interes.toFixed(2);
-        }else if(this.monto>=10000000 && this.plazo>30){
-            let Interes = (this.monto * 0.66)*this.plazo/365;
+        }else if(this.monto>10000000 && this.plazo>=30){
+            let Interes = (this.monto * 0.665)*this.plazo/365;
             return Interes.toFixed(2);
         }
     }
@@ -34,7 +34,7 @@ idFormulario.addEventListener("submit", (event) => {
     const plazo = document.getElementById("plazo").value;
 
     //Creo el objeto cliente
-    const cliente = new Cliente(nombre,email,monto,plazo);
+    const cliente = new Cliente(nombre, email, monto, plazo);
 
     //Agrego los datos en el Array
     clientes.push(cliente);
@@ -81,12 +81,12 @@ botonAdmin.addEventListener("click", () => {
     }).showToast();
 });
 
-const criptoYa = "https://criptoya.com/api/dolar";
+const dolar = "https://criptoya.com/api/dolar";
 
 const divDolar = document.getElementById("divDolar");
 
 setInterval( () => {
-    fetch(criptoYa)
+    fetch(dolar)
         .then( response => response.json())
         .then(({blue, ccb, ccl, mep, oficial, solidario}) => {
             divDolar.innerHTML = `
